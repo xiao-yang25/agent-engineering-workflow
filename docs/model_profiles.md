@@ -1,45 +1,30 @@
 # 模型设置
 
-**简体中文** · [English](en/model_profiles.md) · [文档首页](../README.md#指南导航)
-
-按职责选择已授权的执行者，并核验实际启动能力。
-
-<details>
-<summary>本页目录</summary>
-
-- [默认模型选择](#默认模型选择)
-- [选择与回退](#选择与回退)
-- [原生 Agent](#原生-agent)
-- [Spark CLI](#spark-cli)
-- [DeepSeek Flash / OpenCode](#deepseek-flash--opencode)
-
-</details>
-
-这是可适配的默认路由，不是能力排名或账号可用性证明。使用者在本机入口确认执行者和资料范围；机制见 [Agent 协作](agent_selection.md)。
+**简体中文** · [English](en/model_profiles.md) · [文档首页](../README.zh-CN.md#指南导航)
 
 ## 默认模型选择
 
-| 职责 | 首选 | 设置与入口 |
-| --- | --- | --- |
-| 需求、架构取舍、拆分、最终验收 | 当前 Root | 保持当前模型与设置 |
-| 跨文件调查、方案资料整理、独立审查 | Astra | `gpt-6-astra`，`low`；原生子 Agent |
-| 实现、复杂修复、测试与失败分析 | Sol | `gpt-5.6-sol`，`high`；原生子 Agent |
-| 边界明确的小改动、快速检查 | Spark | `gpt-5.3-codex-spark`；Codex CLI，按实际支持设置 |
-| 文档整理、批量分析、低风险执行 | DeepSeek Flash | OpenCode CLI；本机选择明确模型 ID，录入凭据后验证 |
+以下是可选默认，不是能力排名或可用性证明；启用项和允许发送的资料范围写本机入口。
 
-模型标识以宿主实际暴露的入口核验，不擅自替换用户指定模型。Spark 未指定固定推理强度，启动前核验支持值并记录选择。不统一强制 1M 上下文，只提供必要材料。
+| 职责 | 执行者 | 设置 |
+| --- | --- | --- |
+| 架构、拆分、最终验收 | 当前 Root | 保持模型与设置 |
+| 调查、资料整理、独立审查 | 原生 Astra | `gpt-6-astra` / `low` |
+| 实现、复杂修复、测试 | 原生 Sol | `gpt-5.6-sol` / `high` |
+| 明确小任务、快速检查 | Spark CLI | `gpt-5.3-codex-spark`；核验支持的推理设置 |
+| 文档、批量分析、低风险执行 | OpenCode DeepSeek Flash | 核验本机模型 ID、凭据和实际请求 |
 
 ## 选择与回退
 
-复杂实现优先 Sol，调查与独立评估优先 Astra；明确小任务可选 Spark，批量文档可选已配置的 DeepSeek。回退选择能承担同一职责的可用执行者，不固定轮询，不为消费额度制造任务。权限、取消和次数限制见 [可用性回退](agent_selection.md#排队与可用性回退)。
+按职责选择，不为消费额度制造任务。用户指定模型不擅自替换；只提供必要上下文，不统一强制 1M。取消与次数限制见 [可用性回退](agent_selection.md#排队与可用性回退)。
 
 ## 原生 Agent
 
-启动时请求表中模型和推理强度，提供限定任务与规则入口。若宿主缺少模型或不支持覆盖设置，报告限制并按职责回退，不启动另一个 Root。
+传入表中模型、推理设置、限定任务和规则入口。宿主不支持时报告并按职责回退，不启动另一个 Root。
 
 ## Spark CLI
 
-先核验 `codex exec --help` 和模型支持。只读示例：
+先核验 `codex exec --help` 与模型支持。示例使用默认推理设置；显式 `model_reasoning_effort` 只传已验证支持值：
 
 ```sh
 codex exec --model gpt-5.3-codex-spark \
@@ -48,15 +33,35 @@ codex exec --model gpt-5.3-codex-spark \
   '作为 Worker 执行限定任务，返回证据，不递归委派或修改文件'
 ```
 
-示例使用 CLI 默认推理设置；显式设置时只传已核验支持的 `model_reasoning_effort`。写任务按授权选择 `workspace-write`，不自动关闭沙箱。命令不修改当前 Root 或全局配置。
+写任务经授权使用 `workspace-write`；不关闭沙箱或改动当前 Root、全局配置。
 
 ## DeepSeek Flash / OpenCode
 
-采用 OpenCode 作为限定 Worker 入口，不额外引入自定义 Harness 或后台调度器。先核验 `opencode run --help`、`opencode models deepseek` 与配置；模型存在、鉴权成功不能替代任务验证。
+只在选用时接入，不另建 Harness 或后台调度器。核验 `opencode run --help`、配置与服务当前提供的模型 ID，不把别名当固定版本。macOS 安装入口：
 
-官方于 2026-09 发布 V4.1-Flash，旧 `deepseek-v4-flash` 为临时兼容路由，不是固定版本。具体 ID 以当前服务和 CLI 为准，并写入本机配置。[官方公告](https://www.deepseek.com/en/news/deepseek-v4-1-flash/)
+```sh
+brew install anomalyco/tap/opencode
+opencode --version
+```
 
-使用 [OpenCode 配置示例](../examples/opencode.json)，确认模型后调用：
+将 [示例](../examples/opencode.json) 比较合并到本机 `~/.config/opencode/opencode.json`，保留现有 JSON/JSONC 配置。示例默认只读，另有仅限 Markdown 的编辑角色；关闭分享、自动更新、shell、递归委派和隐式 Skill，拒绝常见凭据读取。需要测试或额外工具时由 Root 限定授权，不能一律放行。
+
+跨项目使用时，在本机全局及两个角色的 `permission.external_directory` 放行共享仓库的准确路径（`<WORKFLOW_REPO>/*`）；编辑角色的 `permission.edit` 对同路径设 `deny`，置于通用 Markdown 放行规则之后。Root 传递所需指南；也可在本机 `instructions` 加载共享入口。项目配置可能覆盖全局配置，委派前核验有效权限；这些规则不是 OS 沙箱。
+
+```sh
+opencode auth login
+```
+
+选择 DeepSeek，交互录入 Key；也可用 `/connect`。不把 Key 写进聊天、命令参数、AGENTS 或仓库。凭据默认保存在 `~/.local/share/opencode/auth.json`，不是加密保险库；自定义 XDG 时使用实际路径：
+
+```sh
+chmod 600 ~/.local/share/opencode/auth.json
+opencode models deepseek
+opencode run --agent workflow-review --model deepseek/deepseek-flash \
+  --format json '不要调用任何工具，只回复 READY'
+```
+
+未录入凭据不试探调用。安装、模型列表可见、请求成功、任务通过分别验证；最小请求成功后，再用非敏感文档检查读取、定位与角色权限：
 
 ```sh
 opencode run --agent workflow-review --format json \
@@ -64,8 +69,4 @@ opencode run --agent workflow-review --format json \
   '只读检查指定文档，返回位置和证据，不递归委派'
 ```
 
-示例提供只读文档审查与有限编辑角色；禁用 shell、递归委派与隐式 Skill。需要测试或其他工具时，Root 按任务配置具体权限，不一律放行。权限配置不是 OS 沙箱。
-
-API Key 通过 `opencode auth login` 在本机录入，默认保存在 `~/.local/share/opencode/auth.json`（自定义 XDG 目录时按实际位置），不放仓库、AGENTS、命令参数或任务提示。步骤见 [接入说明](../README.md#deepseek-接入)。
-
-官方参考：[CLI](https://opencode.ai/docs/cli/)、[权限](https://opencode.ai/docs/permissions/)、[配置](https://opencode.ai/docs/config/)。文档存在不代表本机安装或 API 验证完成。
+官方参考：[CLI](https://opencode.ai/docs/cli/) · [权限](https://opencode.ai/docs/permissions/) · [配置](https://opencode.ai/docs/config/)。

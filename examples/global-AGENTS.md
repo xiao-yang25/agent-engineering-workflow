@@ -1,6 +1,6 @@
 # 本机 Agent 工程入口
 
-**简体中文** · [English](en/global-AGENTS.md) · [文档首页](../README.md#指南导航)
+**简体中文** · [English](en/global-AGENTS.md) · [文档首页](../README.zh-CN.md#指南导航)
 
 使用前将 `<WORKFLOW_REPO>` 替换为 clone 后仓库的绝对路径；这是人工替换标记，不是自动展开变量。将本文合并到 `~/.codex/AGENTS.md`，保留原有个人规则。
 

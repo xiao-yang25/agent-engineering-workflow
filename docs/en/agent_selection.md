@@ -1,88 +1,61 @@
 # Agent collaboration
 
-[简体中文](../agent_selection.md) · **English** · [Documentation](../../README.en.md#guides)
+[简体中文](../agent_selection.md) · **English** · [Documentation](../../README.md#guides)
 
-Bound responsibilities and pass context so execution and acceptance have clear owners.
-
-<details>
-<summary>On this page</summary>
-
-- [Single Root and executors](#single-root-and-executors)
-- [Delegation choices](#delegation-choices)
-- [Work packages and parallelism](#work-packages-and-parallelism)
-- [Minimum task brief and result](#minimum-task-brief-and-result)
-- [Queueing and availability fallback](#queueing-and-availability-fallback)
-- [Conducting independent review](#conducting-independent-review)
-- [Failures and escalation](#failures-and-escalation)
-- [CLIs, permissions, and records](#clis-permissions-and-records)
-- [Stop conditions](#stop-conditions)
-
-</details>
-
-This document defines delegation, handoffs, isolation, and fallback behavior. Risk and independent review triggers are defined in [engineering.md](engineering.md#independent-review-policy); model preferences are in [model_profiles.md](model_profiles.md). This document is not a scheduler and grants no additional permissions.
+This file defines delegation, isolation, and fallback. Review triggers live in [engineering.md](engineering.md#independent-review-policy); models are in [model_profiles.md](model_profiles.md). It grants no permission and is not a scheduler.
 
 ## Single Root and executors
 
-- The Agent opened by the user is the sole Root. It owns requirements, architecture tradeoffs, task decomposition, and final acceptance. Keep its current model; do not start another Root.
-- Workers perform bounded investigation, implementation, testing, documentation, and review, and return evidence that can be located and inspected.
-- Executors explicitly enabled by the user may continue working within existing authorization. Cloning a repository, installing a CLI, or seeing a model does not authorize sending project material to a service.
-- Delegation grants no additional permission to install software, sign in, increase budgets, change global configuration, commit, or publish. A refusal must not be bypassed by changing models or disabling approval checks.
+- The current Agent is the sole Root. Keep its model. It owns requirements, architecture tradeoffs, decomposition, and final acceptance; start no other Root.
+- Workers perform bounded work and return evidence.
+- Enabled executors remain within existing authorization. A clone, installed CLI, or visible model does not authorize data disclosure.
+- Delegation does not authorize installation, sign-in, budget increases, global changes, commits, or publication; do not bypass refusal.
 
 ## Delegation choices
 
-Base the decision on the size, risk, and independence of the whole task, rather than mechanically triggering delegation from file counts or action counts.
-
-- Prefer a Worker with the matching role for a substantial investigation, implementation, or complete validation package that can be delegated coherently. The Root handles decisions and verifies the evidence.
-- The Root may complete simple, low-risk, well-bounded work that has no independence requirement. Reading across multiple files does not by itself require delegation.
-- Independent review required by the rules must be a separate assessment in a fresh context; Root self-review is not a substitute.
-- Do not fragment work merely to demonstrate collaboration, or complete the whole task in the Root and then add ceremonial delegation. Run work in parallel only when it can proceed independently and provides a real benefit.
-- Use one Worker by default. The host's concurrency limit and available isolation constrain the count. If write isolation is unreliable, run Workers sequentially.
+- Choose by whole-task size, risk, and independence. Prefer a matching Worker for a substantial package; Root decides and verifies evidence.
+- Root may do simple low-risk work without an independence need. Cross-file reading does not require delegation.
+- Required independent review must be a separate assessment in a fresh context; Root self-review is not a substitute.
+- Do not fragment work or delegate ceremonially afterward. Default to one Worker. Parallelize only independent, useful work; serialize writes without reliable isolation.
 
 ## Work packages and parallelism
 
-- The Root provides the objective, file scope, exclusions, accepted contract, acceptance scenarios, and delivery format. One Worker may carry a tightly related investigation, implementation, and self-test through to completion.
-- Provide the working directory and applicable rule entry points, and verify that they are reachable. Do not assume that native Agents, CLIs, or remote executors inherit the same context. Send only necessary material, never the full conversation or credentials.
-- Parallel writes use isolated copies or worktrees. Tests must also isolate ports, data, processes, and logs. Do not clean up resources owned by other tasks.
-- Workers do not delegate recursively, start a Root, commit, push, merge, or change global configuration on their own. Return new evidence that would change the contract to the Root for a decision.
-- Tool permissions and read-only prompts are not an OS sandbox. File, shell, network, and logging side effects from external CLIs remain subject to the task's authorization.
+- Root supplies objective, scope, exclusions, contract, acceptance, directory, rules, and delivery format, and verifies access.
+- Send only necessary material, never the full conversation or credentials. Do not assume executors inherit context.
+- Parallel writes use isolated copies/worktrees. Tests isolate ports, data, processes, and logs. Do not clean others' resources.
+- Workers do not recursively delegate, start a Root, commit/push/merge, or change global configuration. Return contract-changing evidence to Root.
+- Tool prompts are not an OS sandbox. External CLI side effects remain within authorization.
 
 ## Minimum task brief and result
 
-A Worker returns its conclusions, change locations, checks actually run, and unresolved issues.
+Workers return conclusions, changes, checks, and unresolved items. Include commit+diff or snapshot/hash, needed environment, actual commands/results/exit codes, locatable raw results, and acceptance items/gaps/limits/version. Mark unknowns; keep sensitive evidence in an allowed private location.
 
-| Item | Minimum requirement |
-| --- | --- |
-| Subject | Commit plus uncommitted diff, or a snapshot/hash; relevant environment versions when needed |
-| Execution | Actual commands, results, exit codes, and environment; mark unknown fields explicitly |
-| Raw results | A locatable report or log; keep sensitive evidence in an approved private location |
-| Acceptance mapping | Corresponding acceptance items, gaps, limitations, and the version reviewed |
-
-The Root checks critical paths and the final diff and reuses sufficient evidence. Add checks when evidence is missing or conflicting, the version changed, or risk requires them. Report the actual CLI/model and reasoning setting; request parameters alone do not prove that the service applied them.
+Root checks critical paths and final diff; add checks when evidence or version changes. Record actual CLI/model/reasoning; request parameters do not prove application.
 
 ## Queueing and availability fallback
 
-- Distinguish an unavailable model, missing entry point, authentication or quota failure, permission refusal, explicit queueing, and an ordinarily slow response.
-- Replace a request only after it has ended or its cancellation is confirmed. A timeout or lack of output does not prove that background work stopped. If uncertain, retain the session identifier and query it instead of starting a duplicate.
-- Choose an authorized, available substitute that can perform the same role; do not poll every model in a fixed order. Allow at most two availability substitutions for each subtask, and do not make pointless requests when the candidates share the same failure.
-- Do not retry the same entry point after its quota is exhausted. Spark CLI is separate from the native model menu; do not claim it is unsupported without checking. Do not probe DeepSeek without credentials.
-- After substitutions are exhausted, a capable Root continues with ordinary execution. If required independent review is unavailable, retain the acceptance gap instead of claiming complete acceptance.
-- Do not use fallback behavior to bypass permission, data disclosure, or budget limits. Request user input only when a required permission, decision, or irreplaceable capability is missing.
+- Distinguish invisibility, missing entry point, authentication/quota, permission refusal, queueing, and slowness.
+- Replace only after the request ends or cancellation is confirmed. Timeout/silence does not prove termination. Retain and query its ID; do not duplicate work.
+- Allow at most two availability substitutions per subtask. Choose an authorized executor by role; do not poll fixed lists or repeat shared failures.
+- Do not retry after quota exhaustion. Do not claim Spark is unsupported without checking or probe DeepSeek without credentials.
+- After substitutions, Root executes. If independent review is unavailable, retain the gap.
+- Fallback must not bypass permission, data disclosure, or budgets. Ask only for a missing required permission, decision, or capability.
 
 ## Conducting independent review
 
-- The Reviewer uses a fresh context and receives the problem, contract, patch, acceptance criteria, and actual evidence, without the author's reasoning or self-evaluation. A different model alone is not sufficient for independence.
-- Select Astra / low or an eligible substitute according to the model table. The Root verifies important findings and retains the final decision.
-- Use two rounds by default: initial review and post-fix review. Continue necessary fixes while issues remain, and state the scope and reason for any additional review. A final version that was not rechecked cannot be marked as passed.
-- If independent review is unavailable, continue useful self-checks and state the limitation. Record an exception if the user accepts the residual risk.
+- Reviewer uses a fresh context with problem, contract, patch, acceptance, and evidence, without author reasoning/self-evaluation. A different model is not independence.
+- Select a Reviewer from the model table. Root verifies material findings and retains the final decision.
+- Default to initial and post-fix review. Continue fixes and explain extra rounds. An unrechecked final version cannot pass.
+- If independent review is unavailable, continue self-checks and state the limit. Record an exception when the user accepts residual risk.
 
 ## Failures and escalation
 
-Resolve tool, scope, context, and validation prerequisites first. Adjust the model or reasoning effort only when there is concrete evidence of insufficient quality; do not silently change settings chosen by the user. State the reason and acceptance requirement for each escalation. Limit a subtask to two escalations, then have the Root reassess. Quality escalation and availability fallback cannot be used to bypass each other's limits.
+Resolve tool, scope, context, and validation prerequisites first. Change model/reasoning only for concrete quality evidence; state reason and acceptance, and do not silently alter user settings. Allow at most two quality escalations per subtask, then Root reassesses. The two limits cannot bypass each other.
 
 ## CLIs, permissions, and records
 
-Use only installed, configured, and authorized entry points. After an upgrade, verify parameters against the help output. Record model visibility, request success, and task success separately. Do not guess context capacity. Keep run records and usage data locally; mark unknown token counts, costs, or settings as unknown.
+Use only installed, configured, authorized entry points; verify parameters after upgrades. Record model visibility, request success, and task success separately. Do not guess capacity, tokens, cost, or settings. Keep records local.
 
 ## Stop conditions
 
-Stop when acceptance is met; do not prolong a task merely to add Workers. Preserve required gaps, and do not claim that cancellation, configuration, or validation succeeded when it did not.
+Stop at acceptance; do not extend work to add Workers. Preserve gaps and do not claim false success.

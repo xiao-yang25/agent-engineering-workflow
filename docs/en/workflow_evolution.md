@@ -1,89 +1,65 @@
 # Workflow improvement
 
-[简体中文](../workflow_evolution.md) · **English** · [Documentation](../../README.en.md#guides)
+[简体中文](../workflow_evolution.md) · **English** · [Documentation](../../README.md#guides)
 
-Use evidence from recurring problems to make verifiable, reversible improvements.
-
-<details>
-<summary>On this page</summary>
-
-- [Goals and boundaries](#goals-and-boundaries)
-- [1. Event-driven records within a task](#1-event-driven-records-within-a-task)
-- [2. Review inputs and coverage](#2-review-inputs-and-coverage)
-- [3. Review checklist](#3-review-checklist)
-- [4. Improvement loop](#4-improvement-loop)
-- [5. Automatic-change scope and proposal scope](#5-automatic-change-scope-and-proposal-scope)
-- [6. Validation and rollback](#6-validation-and-rollback)
-- [7. Log contents](#7-log-contents)
-- [8. Delegation and review](#8-delegation-and-review)
-- [Scheduling and runtime prerequisites](#scheduling-and-runtime-prerequisites)
-
-</details>
+Use recurring-problem evidence for verifiable, reversible improvement.
 
 ## Goals and boundaries
 
-- Add a lightweight, evidence-driven mechanism for improvement during tasks and for periodic review to the existing `.codex/AGENTS.md` + `shared guide directory` system.
-- Do not promise model self-training or build a new framework, directory, or scheduling system. Reuse the existing files and Codex scheduling.
-- Periodic review does not change project-specific code or configuration. It refers only to task evidence within the current scope that is allowed to be accessed. Address project-specific issues only in an authorized task for that project.
+- Reuse existing entry points, guides, and Codex scheduling. Do not promise model self-training or create a framework, directory, or scheduler.
+- Periodic review does not change project code/configuration. It uses only authorized evidence; project issues stay in their task.
 
 ## 1. Event-driven records within a task
 
-- Triggering events: repeated failures, manual corrections, lost context, delegation environment or quota failures, validation gaps, and repeated operations.
-- When an event occurs, first reuse records and artifacts from the original task instead of creating a parallel ledger.
-- Write only a locatable summary (task identifier + file/line or log anchor) to the private local review log. See the [log template](../../examples/en/workflow_evolution_log.md). Do not copy the source text.
-- Weekly review is suggested. The user decides whether to enable it and when it runs; do not create a duplicate schedule when one already exists.
+- Repeated failure, correction, lost context, delegation environment/quota failure, validation gaps, or repeated operations trigger a record.
+- Reuse original task records and artifacts; do not create a parallel ledger.
+- The private local log stores only task ID plus file/line or log anchor, not source text. See the [template](../../examples/en/workflow_evolution_log.md).
+- Weekly review is suggested. The user chooses enablement and time; do not duplicate an existing schedule.
 
 ## 2. Review inputs and coverage
 
-- Read the last review time, scope, and open items in the log; the global entry guide and any guides changed in this round; evidence from the current task; and project-task evidence explicitly registered in the log that is currently authorized for access.
-- Do not scan all private conversations, traverse entire codebases, or read credentials.
-- Record inaccessible evidence as “insufficient coverage” in the log; do not claim that all projects are healthy.
-- If there is no new evidence and no definite problem such as a stale link, stop without manufacturing a periodic change. Changes to log timestamps, the review cursor, or backup files created by this mechanism are not new problem evidence.
+- Read prior scope/open items, changed guides, current-task evidence, and logged project evidence currently authorized.
+- Do not scan private conversations, codebases, or credentials. Mark inaccessible evidence as insufficient coverage; do not claim universal health.
+- Stop without a change when there is no new evidence or definite problem. Timestamps, cursors, and this mechanism's backups are not problem evidence.
 
 ## 3. Review checklist
 
-- Conflicting, duplicate, or stale rules, including references to files, anchors, or tools that no longer exist.
-- Repeated work during context restoration, such as reconstructing or restating the same information several times.
-- Whether executor selection and delegation reflected task size, risk, and independence.
-- Whether validation actually proved the objective or merely performed a procedural check.
-- The applicability of existing Skills and candidates for recurring SOPs.
-- Use only exposed Skill metadata. Unless the user requests it, do not read or invoke `SKILL.md`.
-- Periodic review does not automatically browse for trends. Verify primary sources only when a concrete technical question arises, and include the verification date in the conclusion.
+- Check conflicting/duplicate/stale rules, repeated recovery, delegation fit, validation strength, and Skill/SOP candidates.
+- Use only exposed Skill metadata. Without a request, do not read or invoke SKILL.md.
+- Do not browse trends automatically. Verify primary sources only for a concrete technical question and record the date.
 
 ## 4. Improvement loop
 
-- Process: problem evidence → root cause → choose the smallest correction → save the before state and diff → validate → record “observe / keep / revise / roll back” in the log.
-- Prefer fixing real tool or validation gaps, or removing duplicate rules, over adding slogan-like constraints.
-- Do not attribute every execution failure to model capability. Check tools, context, rules, and validation design first.
-- Address at most three small, evidence-backed problems in each round. Preserve the rest unchanged.
-- Before starting a new problem, revisit items marked “pending observation” in the previous round.
+- Evidence → root cause → smallest correction → save before/diff → validate → log observe/keep/revise/roll back.
+- Fix tool/validation gaps or duplication. Check tools, context, rules, and validation before blaming models.
+- Address at most three evidence-backed small problems per round; preserve the rest. Review prior pending-observation items before starting a new problem.
 
 ## 5. Automatic-change scope and proposal scope
 
-- Automatic changes are allowed only when they are within existing authorization and are limited to non-semantic documentation typos and formatting, stale links whose intended targets are confirmed, and consolidation of duplicate text without losing any constraint.
-- Automatic changes are limited to Markdown documents in the global entry point and shared guide directory explicitly authorized by the user; update the log as defined by this guide. Do not use this mechanism to add or relax its own authorization, or to change the authorization, limits, or schedule of the mechanism itself.
-- Provide a “concrete, reviewable proposal” only for substantive rules, model routing and quota policy, permission, acceptance, or Skill-enablement mechanisms, new Skills, script installation, and code changes. If targeted authorization already exists, implement within that scope without expanding it.
-- Save the target baseline before editing, then recheck its content or hash immediately before writing. If the file changes in the meantime, stop the write and either reread and merge or preserve the proposal; do not overwrite new changes from the user or another task.
-- Request permissions through the host mechanism when needed. If denied, stop that write, record the concrete gap, and continue work that does not depend on the permission. Do not bypass the denial.
+- Within existing authorization, automatic changes are limited to nonsemantic Markdown typo/format fixes, stale links with confirmed targets, and duplicate-text consolidation that loses no constraint.
+- Files are limited to user-authorized Markdown in the global entry and shared-guide directory. Do not add/relax permission or change this mechanism's authorization, limits, or schedule.
+- Give a concrete reviewable proposal for substantive rules, model/quota policy, permission, acceptance, Skill enablement, new Skills, script installation, and code. When targeted authorization exists, implement within it without expansion.
+- Save the baseline, then recheck content/hash immediately before writing. If it changed, reread and merge or retain the proposal; do not overwrite user or other-task changes.
+- If permission is denied, stop that write, record the gap, and continue independent work. Do not bypass refusal.
 
 ## 6. Validation and rollback
 
-- Documentation changes: check links and anchors, inspect the diff, and confirm that the owner of every changed constraint remains clear.
-- Authorized semantic workflow changes: first revisit the historical failure they address and check a representative successful scenario. If no replayable record exists, state the substitute validation and its limitations. Do not fabricate replay results or lower existing mandatory acceptance standards.
-- Static documentation checks alone do not establish improved development efficiency. Without real task evidence, mark the change “under observation” and use the next relevant evidence to decide whether to keep or roll it back.
-- Rollback may revert only changes made by this mechanism, and only after confirming that the target file has not been changed since. If it has changed, provide a proposal instead of overwriting the user's newer work.
+- For documentation, check links, anchors, diff, and each changed constraint's owner.
+- For authorized semantic changes, revisit the target historical failure and a representative success. If replay is impossible, state substitute evidence and limits; do not fabricate results or lower gates.
+- Static checks do not prove efficiency improvement. Without task evidence, mark the change under observation and decide from later evidence.
+- Roll back only this mechanism's changes after confirming the file has not changed since. If it has, propose; do not overwrite.
 
 ## 7. Log contents
 
-- Each entry contains only the date, actual coverage, source of the issue, change location and an index to the before state or diff, validation evidence, and the decision or next observation step.
-- If no issue was found in the round, update only the last review time and scope; do not add an empty log entry.
-- Do not invent token savings, time savings, or percentages of any kind.
+- Each item contains date, actual coverage, issue source, location and before/diff index, validation, and decision or next observation.
+- With no issue, update only review time and scope; add no empty entry.
+- Do not invent token, time, or percentage savings.
 
 ## 8. Delegation and review
 
-- Follow the role division in [agent_selection.md](agent_selection.md) for delegation. The Root retains final decision authority.
-- Base delegation on the actual workload of the review as a whole; do not split it into small operations to evade the rules. Simple, low-risk work may be completed directly. Independent review is still triggered according to [engineering.md](engineering.md#independent-review-policy).
+- Delegate under [agent_selection.md](agent_selection.md); Root retains final decision.
+- Judge the whole review workload and do not split work to evade rules. Independent review still follows [engineering.md](engineering.md#independent-review-policy).
 
 ## Scheduling and runtime prerequisites
 
-A weekly review is suggested; the user must explicitly authorize scheduling the first one. Codex automation configuration owns the schedule and its enabled state. Editing files does not change the schedule. Actual scheduler records are authoritative for run results; successful creation does not prove that every future run has been validated. If automation is unavailable, the user may request “review according to workflow_evolution.md” within an existing task. Do not quietly add a system timer or background process.
+The user must explicitly authorize the first schedule. Codex automation configuration owns timing and enablement; editing files does not change it. Scheduler records are authoritative, and successful creation does not prove future runs were validated. If automation is unavailable, the user may request a review in the current task. Do not add a system timer or background process silently.

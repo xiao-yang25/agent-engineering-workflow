@@ -303,7 +303,7 @@ def check_sensitive_text(path: Path, text: str) -> list[Issue]:
 
 def check_translations(documents: dict[Path, MarkdownDocument]) -> list[Issue]:
     """Check counterpart coverage and language switches, not translation quality."""
-    pairs = [(REPO_ROOT / "README.md", REPO_ROOT / "README.en.md"),
+    pairs = [(REPO_ROOT / "README.zh-CN.md", REPO_ROOT / "README.md"),
              (REPO_ROOT / "AGENTS.md", REPO_ROOT / "docs/en/AGENTS.md")]
     pairs.extend((path, path.parent / "en" / path.name)
                  for path in sorted(documents)

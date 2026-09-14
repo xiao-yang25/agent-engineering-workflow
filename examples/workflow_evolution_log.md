@@ -1,6 +1,6 @@
 # 工作流审视日志模板
 
-**简体中文** · [English](en/workflow_evolution_log.md) · [文档首页](../README.md#指南导航)
+**简体中文** · [English](en/workflow_evolution_log.md) · [文档首页](../README.zh-CN.md#指南导航)
 
 本文件只提供空白模板，不保存个人历史、任务标识或本机调度状态。复制到仓库外的私有位置后使用；本机全局入口记录该位置。规则见 [工作流自迭代](../docs/workflow_evolution.md)。
 

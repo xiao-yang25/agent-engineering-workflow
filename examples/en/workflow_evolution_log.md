@@ -1,6 +1,6 @@
 # Workflow review log template
 
-[简体中文](../workflow_evolution_log.md) · **English** · [Documentation](../../README.en.md#guides)
+[简体中文](../workflow_evolution_log.md) · **English** · [Documentation](../../README.md#guides)
 
 This file is a blank template, not a place for personal history, task identifiers, or local scheduling state. Copy it to a private location outside the repository and record that location in the local global entry. See [workflow improvement](../../docs/en/workflow_evolution.md) for the rules.
 

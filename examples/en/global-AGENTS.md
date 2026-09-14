@@ -1,6 +1,6 @@
 # Local agent entry
 
-[简体中文](../global-AGENTS.md) · **English** · [Documentation](../../README.en.md#guides)
+[简体中文](../global-AGENTS.md) · **English** · [Documentation](../../README.md#guides)
 
 Before use, replace `<WORKFLOW_REPO>` with the cloned repository's absolute path. This is a manual replacement marker, not an automatically expanded variable. Merge this template into `~/.codex/AGENTS.md` and preserve existing personal rules.
 
