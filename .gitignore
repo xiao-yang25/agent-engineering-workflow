@@ -1,0 +1,10 @@
+# Local state and credentials
+.DS_Store
+.env
+.env.*
+!.env.example
+*.local.*
+.local/
+auth.json
+.opencode/
+*.log
