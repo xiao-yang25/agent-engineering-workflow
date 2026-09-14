@@ -301,6 +301,40 @@ def check_sensitive_text(path: Path, text: str) -> list[Issue]:
     return issues
 
 
+def check_translations(documents: dict[Path, MarkdownDocument]) -> list[Issue]:
+    """Check counterpart coverage and language switches, not translation quality."""
+    pairs = [(REPO_ROOT / "README.md", REPO_ROOT / "README.en.md"),
+             (REPO_ROOT / "AGENTS.md", REPO_ROOT / "docs/en/AGENTS.md")]
+    pairs.extend((path, path.parent / "en" / path.name)
+                 for path in sorted(documents)
+                 if path.parent in (REPO_ROOT / "docs", REPO_ROOT / "examples"))
+    issues: list[Issue] = []
+    for chinese, english in pairs:
+        for source, counterpart in ((chinese, english), (english, chinese)):
+            document = documents.get(source)
+            if document is None:
+                issues.append(Issue(relative(source), 1, "translation-pair", "language counterpart is missing or unreadable"))
+                continue
+            if not any((source.parent / urlsplit(link).path).resolve() == counterpart
+                       for _, link in document.links
+                       if not urlsplit(link).scheme and not urlsplit(link).netloc):
+                issues.append(Issue(relative(source), 1, "language-switch", "link to language counterpart is missing"))
+    return issues
+
+
+def comparable_config(value):
+    """Ignore only human-facing role text when comparing localized examples."""
+    result = json.loads(json.dumps(value))
+    agents = result.get("agent") if isinstance(result, dict) else None
+    if isinstance(agents, dict):
+        for role in agents.values():
+            if isinstance(role, dict):
+                role.pop("description", None)
+                role.pop("prompt", None)
+    # Permission rule order can change which matching rule wins.
+    return json.dumps(result, ensure_ascii=False)
+
+
 def main() -> int:
     markdown_paths, json_paths, issues = public_files()
     documents: dict[Path, MarkdownDocument] = {}
@@ -317,6 +351,8 @@ def main() -> int:
         issues.extend(markdown_issues)
         issues.extend(check_sensitive_text(path, text))
 
+    issues.extend(check_translations(documents))
+
     for document in documents.values():
         for number, destination in document.links:
             parsed = urlsplit(destination)
@@ -327,6 +363,7 @@ def main() -> int:
             if issue is not None:
                 issues.append(issue)
 
+    configurations = {}
     for path in json_paths:
         try:
             text = path.read_text(encoding="utf-8")
@@ -335,9 +372,18 @@ def main() -> int:
             continue
         issues.extend(check_sensitive_text(path, text))
         try:
-            json.loads(text)
+            configurations[path] = json.loads(text)
         except json.JSONDecodeError as error:
             issues.append(Issue(relative(path), error.lineno, "json-syntax", "invalid JSON"))
+
+    chinese_config = REPO_ROOT / "examples/opencode.json"
+    english_config = REPO_ROOT / "examples/en/opencode.json"
+    for path in (chinese_config, english_config):
+        if path not in configurations:
+            issues.append(Issue(relative(path), 1, "translation-pair", "localized JSON example is missing or invalid"))
+    if chinese_config in configurations and english_config in configurations:
+        if comparable_config(configurations[chinese_config]) != comparable_config(configurations[english_config]):
+            issues.append(Issue(relative(english_config), 1, "configuration-parity", "localized examples differ beyond role descriptions and prompts"))
 
     if issues:
         for issue in sorted(set(issues)):

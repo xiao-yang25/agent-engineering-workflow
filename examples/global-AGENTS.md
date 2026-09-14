@@ -1,5 +1,7 @@
 # 本机 Agent 工程入口
 
+**简体中文** · [English](en/global-AGENTS.md) · [文档首页](../README.md#指南导航)
+
 使用前将 `<WORKFLOW_REPO>` 替换为 clone 后仓库的绝对路径；这是人工替换标记，不是自动展开变量。将本文合并到 `~/.codex/AGENTS.md`，保留原有个人规则。
 
 若自定义了 `CODEX_HOME`，合并到该目录下的 `AGENTS.md`。只在仓库外的副本填写本机信息，共享指南正文直接引用原仓库；无需复制或修改整套指南。

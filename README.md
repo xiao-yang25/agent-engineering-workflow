@@ -1,36 +1,18 @@
 # Agent Engineering Workflow
 
-可移植的中文工程工作流：通用约定、设计、编码、调试、审查与多 Agent 协作。仓库只保存通用规则和配置示例；个人路径、密钥、会话及历史日志留在本机。
+**简体中文** · [English](README.en.md)
 
-## 文档入口
+**让 Agent 工程任务有清晰的约束、可执行的步骤和可核验的结果。**
 
-从 [AGENTS.md](AGENTS.md) 按任务加载。共享方法见 [engineering.md](docs/engineering.md)，执行分工见 [agent_selection.md](docs/agent_selection.md)，模型偏好见 [model_profiles.md](docs/model_profiles.md)。项目保留自己的业务约束与验收入口，不复制整套指南。
+一套可直接引用的工程指南，覆盖设计、实现、调试、审查与多 Agent 协作。共享方法留在仓库，项目事实留在项目，个人配置留在本机。
 
-```text
-.
-├── README.md              # 使用说明与维护入口
-├── AGENTS.md              # Agent 规则入口与指南导航
-├── docs/                  # 共享方法、专项指南与模型分工
-├── examples/              # 全局入口、工具配置、空白日志模板
-└── scripts/               # 离线文档检查
-```
+[快速开始](#快速开始) · [指南导航](#指南导航) · [本机适配](#公开版本与本机适配) · [维护](#验证与维护)
 
-## 公开版本与本机适配
+- **按需使用** — 从一个任务开始，只读取当前阶段需要的指南。
+- **职责明确** — 当前 Root 做架构取舍与最终验收，Worker 提供限定范围内的执行和证据。
+- **便于迁移** — 普通任务可仅使用当前 Root；额外模型和工具按需接入。
 
-共享指南直接使用下载或 clone 的这一份，不再复制一套正文作为“本地版本”。需要按人、机器或账号调整的信息，放在仓库外的本机入口和工具配置中。这样共享规则只有一个维护来源，更新时也无需合并两套指南。
-
-| 内容 | 公开仓库中的来源 | 本机如何使用 |
-| --- | --- | --- |
-| 通用规则、任务路由和专项方法 | `AGENTS.md`、`docs/engineering.md`、设计/编码/调试/审查等指南 | 直接引用；通用改进在仓库维护 |
-| 默认执行者偏好 | `docs/model_profiles.md`、`docs/agent_selection.md` | 作为可选默认；个人启用、替代模型和资料范围写本机入口 |
-| 全局入口 | `examples/global-AGENTS.md` | 替换占位符后合并到 Codex home 下的 `AGENTS.md` |
-| OpenCode 角色示例 | `examples/opencode.json` | 仅在选用该工具时合并到仓库外的有效配置，适配路径与模型 |
-| 审视日志模板 | `examples/workflow_evolution_log.md` | 需要记录时复制到仓库外；原模板保持空白 |
-| 业务项目约束、构建和测试入口 | 由业务项目维护 | 写在该项目的 `AGENTS.md` 或已有文档中 |
-
-只复制需要实例化的模板，不在公开目录填写真实机器路径、账号状态、密钥或个人任务记录。`~/.codex` 等路径是默认位置说明，`<WORKFLOW_REPO>` 等是人工替换标记；平台、`CODEX_HOME` 或工具配置目录不同的使用者应采用自己的实际位置。复制入口不需要改写共享指南中的相对引用。
-
-## clone 后适配
+## 快速开始
 
 1. 将本仓库 clone 到长期保留的位置。
 2. 阅读规则，将 [全局入口模板](examples/global-AGENTS.md) 中 `<WORKFLOW_REPO>` 替换为实际绝对路径，再合并到 `~/.codex/AGENTS.md`。不要直接覆盖已有个人配置。
@@ -60,7 +42,50 @@
 
 项目只维护自己的具体事实和约束。通用方法留在共享仓库；Skill 的显式启用规则沿用 [AGENTS.md](AGENTS.md#skill-使用)。
 
+## 指南导航
+
+从 [Agent 入口](AGENTS.md) 按任务选择，详细规则无需全部同时加载。
+
+| 想完成什么 | 阅读指南 |
+| --- | --- |
+| 确定流程深度、证据和完成条件 | [工程原则](docs/engineering.md) |
+| 做结构决定与架构取舍 | [架构设计](docs/design.md) |
+| 实现明确的行为或修复 | [编码实现](docs/coding.md) |
+| 定位故障并验证根因 | [故障调试](docs/debugging.md) |
+| 检查正确性与验收证据 | [工程审查](docs/review.md) |
+| 接入或维护业务项目 | [项目接入](docs/project_workflow.md) |
+| 分配任务、交接和回退 | [Agent 协作](docs/agent_selection.md) |
+| 选择模型与启动参数 | [模型设置](docs/model_profiles.md) |
+| 根据实际问题改进工作流 | [工作流改进](docs/workflow_evolution.md) |
+
+```text
+.
+├── README.md / README.en.md   # 中文 / English
+├── AGENTS.md                 # Agent 默认入口
+├── docs/                     # 中文指南；en/ 为英文版本
+├── examples/                 # 本机适配模板；en/ 为英文版本
+└── scripts/                  # 离线检查
+```
+
+## 公开版本与本机适配
+
+共享指南直接使用下载或 clone 的这一份，不再复制一套正文作为“本地版本”。需要按人、机器或账号调整的信息，放在仓库外的本机入口和工具配置中。这样共享规则只有一个维护来源，更新时也无需合并两套指南。
+
+| 内容 | 公开仓库中的来源 | 本机如何使用 |
+| --- | --- | --- |
+| 通用规则、任务路由和专项方法 | `AGENTS.md`、`docs/engineering.md`、设计/编码/调试/审查等指南 | 直接引用；通用改进在仓库维护 |
+| 默认执行者偏好 | `docs/model_profiles.md`、`docs/agent_selection.md` | 作为可选默认；个人启用、替代模型和资料范围写本机入口 |
+| 全局入口 | `examples/global-AGENTS.md` | 替换占位符后合并到 Codex home 下的 `AGENTS.md` |
+| OpenCode 角色示例 | `examples/opencode.json` | 仅在选用该工具时合并到仓库外的有效配置，适配路径与模型 |
+| 审视日志模板 | `examples/workflow_evolution_log.md` | 需要记录时复制到仓库外；原模板保持空白 |
+| 业务项目约束、构建和测试入口 | 由业务项目维护 | 写在该项目的 `AGENTS.md` 或已有文档中 |
+
+只复制需要实例化的模板，不在公开目录填写真实机器路径、账号状态、密钥或个人任务记录。`~/.codex` 等路径是默认位置说明，`<WORKFLOW_REPO>` 等是人工替换标记；平台、`CODEX_HOME` 或工具配置目录不同的使用者应采用自己的实际位置。复制入口不需要改写共享指南中的相对引用。
+
 ## DeepSeek 接入
+
+<details>
+<summary>可选：通过 OpenCode 配置 DeepSeek Worker</summary>
 
 本节是可选扩展，不是使用共享文档的前置条件。
 
@@ -103,6 +128,9 @@ opencode run --agent workflow-review --model deepseek/deepseek-flash \
 
 请求成功后再用非敏感文档验证读取、结果定位及角色权限。API Key 未录入前，模型连通性与任务效果均为待验证。[官方凭据与 CLI 文档](https://opencode.ai/docs/cli/)
 
+
+</details>
+
 ## 隐私与本机记录
 
 - 公开目录不保存真实凭据、个人绝对路径、私有任务/调度标识、账号状态或个人历史。
@@ -120,7 +148,7 @@ opencode run --agent workflow-review --model deepseek/deepseek-flash \
 python3 scripts/check_docs.py
 ```
 
-检查脚本位于 [scripts/check_docs.py](scripts/check_docs.py)。其范围是根目录、`docs/`、`examples/` 中的 Markdown 和 `examples/` 中的 JSON，检查本地链接、锚点、围栏、JSON 语法及常见个人路径/密钥特征；发现问题时返回非零退出码。它不是完整的 Markdown 渲染器或秘密扫描器，不检查外部网页可达性，也不读取本机配置。
+检查脚本位于 [scripts/check_docs.py](scripts/check_docs.py)。其范围是根目录、`docs/`、`examples/` 中的 Markdown 和 `examples/` 中的 JSON，检查本地链接、锚点、围栏、JSON 语法、双语文件配对及常见个人路径/密钥特征；发现问题时返回非零退出码。它不是完整的 Markdown 渲染器或秘密扫描器，不检查外部网页可达性，也不读取本机配置。
 
 | 改动范围 | 必要验证与证据 |
 | --- | --- |
@@ -131,3 +159,5 @@ python3 scripts/check_docs.py
 | 发布准备 | 核对实际待提交文件及 Git 历史中的个人信息；忽略规则和脚本不能替代人工核验 |
 
 检查结果关联所改版本，个人运行日志与历史证据保留在仓库外。通用规则更新直接修改对应权威指南；模板更新由各使用者比较后合并到本机配置，不自动覆盖。静态文档验证不能代替真实 CLI/API 或工程任务验证，完成条件沿用 `docs/engineering.md`。
+
+中英文版本在同一次规则修改中同步。保留既有锚点和技术标识；使用一种语言完成任务，无需把译文再加载一遍。Commit message 使用英文，例如 `docs: improve navigation and add English translations`；不自动改写已发布历史。

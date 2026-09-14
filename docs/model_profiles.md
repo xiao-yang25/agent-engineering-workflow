@@ -1,4 +1,19 @@
-# 模型与启动设置
+# 模型设置
+
+**简体中文** · [English](en/model_profiles.md) · [文档首页](../README.md#指南导航)
+
+按职责选择已授权的执行者，并核验实际启动能力。
+
+<details>
+<summary>本页目录</summary>
+
+- [默认模型选择](#默认模型选择)
+- [选择与回退](#选择与回退)
+- [原生 Agent](#原生-agent)
+- [Spark CLI](#spark-cli)
+- [DeepSeek Flash / OpenCode](#deepseek-flash--opencode)
+
+</details>
 
 这是可适配的默认路由，不是能力排名或账号可用性证明。使用者在本机入口确认执行者和资料范围；机制见 [Agent 协作](agent_selection.md)。
 

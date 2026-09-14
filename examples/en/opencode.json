@@ -1,0 +1,89 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "deepseek/deepseek-flash",
+  "default_agent": "workflow-review",
+  "share": "disabled",
+  "autoupdate": false,
+  "permission": {
+    "*": "deny",
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      ".env": "deny",
+      ".env.*": "deny",
+      "**/.env": "deny",
+      "**/.env.*": "deny",
+      "auth.json": "deny",
+      "**/auth.json": "deny",
+      "*.pem": "deny",
+      "*.key": "deny",
+      "**/.ssh/**": "deny",
+      "**/.aws/**": "deny"
+    },
+    "glob": "allow",
+    "grep": "allow",
+    "list": "allow"
+  },
+  "agent": {
+    "workflow-review": {
+      "description": "Read-only document review",
+      "mode": "primary",
+      "model": "deepseek/deepseek-flash",
+      "permission": {
+        "*": "deny",
+        "read": {
+          "*": "allow",
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".env": "deny",
+          ".env.*": "deny",
+          "**/.env": "deny",
+          "**/.env.*": "deny",
+          "auth.json": "deny",
+          "**/auth.json": "deny",
+          "*.pem": "deny",
+          "*.key": "deny",
+          "**/.ssh/**": "deny",
+          "**/.aws/**": "deny"
+        },
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow"
+      },
+      "prompt": "You are a bounded Worker. Root retains architecture and final acceptance. Work only within the assigned scope; first read the provided rule entry points and accepted contract. Do not delegate recursively, load Skills that were not explicitly enabled, read credentials, commit, publish, or change global configuration. Return file locations, actual checks, and gaps. Do not modify files."
+    },
+    "workflow-edit": {
+      "description": "Document editing within an assigned scope",
+      "mode": "primary",
+      "model": "deepseek/deepseek-flash",
+      "permission": {
+        "*": "deny",
+        "read": {
+          "*": "allow",
+          "*.env": "deny",
+          "*.env.*": "deny",
+          ".env": "deny",
+          ".env.*": "deny",
+          "**/.env": "deny",
+          "**/.env.*": "deny",
+          "auth.json": "deny",
+          "**/auth.json": "deny",
+          "*.pem": "deny",
+          "*.key": "deny",
+          "**/.ssh/**": "deny",
+          "**/.aws/**": "deny"
+        },
+        "glob": "allow",
+        "grep": "allow",
+        "list": "allow",
+        "edit": {
+          "*": "deny",
+          "*.md": "allow",
+          "**/*.md": "allow"
+        }
+      },
+      "prompt": "You are a bounded Worker. Root retains architecture and final acceptance. Work only within the assigned scope; first read the provided rule entry points and accepted contract. Do not delegate recursively, load Skills that were not explicitly enabled, read credentials, commit, publish, or change global configuration. Return file locations, actual checks, and gaps. Edit only Markdown files explicitly authorized by the task."
+    }
+  }
+}

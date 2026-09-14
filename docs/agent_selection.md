@@ -1,5 +1,24 @@
 # Agent 协作
 
+**简体中文** · [English](en/agent_selection.md) · [文档首页](../README.md#指南导航)
+
+限定职责、传递上下文，让执行与验收各有归属。
+
+<details>
+<summary>本页目录</summary>
+
+- [唯一 Root 与执行者](#唯一-root-与执行者)
+- [委派选择](#委派选择)
+- [执行包与并行](#执行包与并行)
+- [最小任务说明与结果](#最小任务说明与结果)
+- [排队与可用性回退](#排队与可用性回退)
+- [独立审查的执行](#独立审查的执行)
+- [失败与升级](#失败与升级)
+- [CLI、权限与记录](#cli权限与记录)
+- [停止条件](#停止条件)
+
+</details>
+
 本文件定义委派、交接、隔离与回退。风险与独立审查触发由 [engineering.md](engineering.md#independent-review-policy) 定义，模型偏好见 [model_profiles.md](model_profiles.md)。本文件不是调度器，也不授予新的权限。
 
 ## 唯一 Root 与执行者
