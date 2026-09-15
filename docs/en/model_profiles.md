@@ -4,19 +4,23 @@
 
 ## Default model selection
 
-These are optional defaults, not capability rankings or proof of availability. Record enabled executors and permitted material in the local entry.
+These are selection recommendations to validate on real tasks, not capability rankings or proof of availability. Record enabled executors and permitted material in the local entry. The current Root keeps the user's model and reasoning settings and owns architecture, decomposition, and final acceptance; the table does not switch Root automatically.
 
-| Responsibility | Executor | Settings |
-| --- | --- | --- |
-| Architecture, decomposition, final acceptance | Current Root | Keep its model and settings |
-| Investigation, research, independent review | Native Astra | `gpt-6-astra` / `low` |
-| Implementation, complex fixes, tests | Native Sol | `gpt-5.6-sol` / `high` |
-| Bounded small tasks, quick checks | Spark CLI | `gpt-5.3-codex-spark`; verify supported reasoning settings |
-| Documents, batch analysis, low-risk execution | OpenCode DeepSeek Flash | Verify the local model ID, credentials, and actual requests |
+| Work | Suggested executor and settings |
+| --- | --- |
+| Architecture, complex understanding, core implementation, root-cause analysis | Astra / `gpt-6-astra` / `high`; architectural decisions stay with the current Root |
+| Difficult races, lifetimes, major design tradeoffs | Astra / `xhigh`; major tradeoffs stay with the current Root |
+| Ordinary implementation, fixes, tests with a clear contract | Sol / `gpt-5.6-sol` / `high` |
+| Bounded investigation, ordinary implementation, batch work, supplementary review | OpenCode DeepSeek V4.1 Flash; verify the local model ID and actual requests |
+| Locating information, mechanical edits, quick checks | Astra / `low`, or Spark CLI / `gpt-5.3-codex-spark` |
+| High-risk independent review | Astra / `high` in a fresh context |
+| A specific, persistent reasoning bottleneck | Astra / `max` when warranted |
 
 ## Selection and fallback
 
-Choose by responsibility; do not create work to consume quota. Do not replace user-specified models without permission. Supply only necessary context, without requiring a uniform 1M window. See [availability fallback](agent_selection.md#queueing-and-availability-fallback) for cancellation and attempt limits.
+Choose by uncertainty, affected boundaries, and the cost of error, not file type or quota consumption. Sol and DeepSeek may overlap; choose by task acceptance results. For now, DeepSeek must not be the sole reviewer of a high-risk change. Select other independent reviewers by risk from authorized executors.
+
+Supply only necessary context, without requiring a uniform 1M window. Do not replace user-specified models or reasoning settings without permission. See [Agent collaboration](agent_selection.md) for cancellation, fallback, and escalation. Evaluate routing on comparable tasks using rework, omissions, total time, and actual usage; do not claim efficiency gains without task evidence. Keep records local.
 
 ## Native Agents
 
@@ -36,6 +40,8 @@ codex exec --model gpt-5.3-codex-spark \
 Use `workspace-write` only for authorized write tasks. Do not disable the sandbox or change the current Root or global configuration.
 
 ## DeepSeek Flash / OpenCode
+
+The current official API name for V4.1 Flash is `deepseek-flash` ([model details](https://api-docs.deepseek.com/quick_start/pricing/)); use the provider/model ID actually available in OpenCode. Verify capability, service availability, and tool permissions separately. Code implementation or tests require the corresponding existing write/execution authorization; this routing does not expand example permissions.
 
 Set this up only if selected; do not add a harness or background scheduler. Check `opencode run --help`, configuration, and current service model IDs. Do not treat an alias as a pinned version. On macOS:
 

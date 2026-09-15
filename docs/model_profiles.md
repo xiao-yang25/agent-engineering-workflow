@@ -4,19 +4,23 @@
 
 ## 默认模型选择
 
-以下是可选默认，不是能力排名或可用性证明；启用项和允许发送的资料范围写本机入口。
+以下是待任务验证的选择建议，不是能力排名或可用性证明；启用项和允许发送的资料范围写本机入口。当前 Root 保持用户模型与推理设置，架构、拆分和最终验收仍由它负责；表中建议不自动切换 Root。
 
-| 职责 | 执行者 | 设置 |
-| --- | --- | --- |
-| 架构、拆分、最终验收 | 当前 Root | 保持模型与设置 |
-| 调查、资料整理、独立审查 | 原生 Astra | `gpt-6-astra` / `low` |
-| 实现、复杂修复、测试 | 原生 Sol | `gpt-5.6-sol` / `high` |
-| 明确小任务、快速检查 | Spark CLI | `gpt-5.3-codex-spark`；核验支持的推理设置 |
-| 文档、批量分析、低风险执行 | OpenCode DeepSeek Flash | 核验本机模型 ID、凭据和实际请求 |
+| 工作 | 建议执行者与设置 |
+| --- | --- |
+| 架构、复杂理解、核心实现、根因定位 | Astra / `gpt-6-astra` / `high`；架构决定留当前 Root |
+| 难解竞态、生命周期、重大方案取舍 | Astra / `xhigh`；重大取舍留当前 Root |
+| 契约明确的普通实现、修复、测试 | Sol / `gpt-5.6-sol` / `high` |
+| 限定调查、普通实现、批量处理、补充审查 | OpenCode DeepSeek V4.1 Flash；核验本机模型 ID 与实际请求 |
+| 资料定位、机械修改、快速检查 | Astra / `low`，或 Spark CLI / `gpt-5.3-codex-spark` |
+| 高风险独立审查 | 新上下文的 Astra / `high` |
+| 明确且持续的推理瓶颈 | 按需选择 Astra / `max` |
 
 ## 选择与回退
 
-按职责选择，不为消费额度制造任务。用户指定模型不擅自替换；只提供必要上下文，不统一强制 1M。取消与次数限制见 [可用性回退](agent_selection.md#排队与可用性回退)。
+按不确定性、影响边界和错误代价选择，不按文件类型或为消费额度分工。Sol 与 DeepSeek 职责可重叠，以任务验收表现选择；DeepSeek 暂不作为高风险改动的唯一审查者。其他独立审查按风险选择已授权执行者。
+
+只提供必要上下文，不统一强制 1M；用户指定的模型与推理设置不擅自替换。取消、回退与升级见 [Agent 协作](agent_selection.md)。用可比任务的返工、遗漏、总耗时和实际用量评估分工；无任务证据不声称效率提升，记录留本机。
 
 ## 原生 Agent
 
@@ -36,6 +40,8 @@ codex exec --model gpt-5.3-codex-spark \
 写任务经授权使用 `workspace-write`；不关闭沙箱或改动当前 Root、全局配置。
 
 ## DeepSeek Flash / OpenCode
+
+V4.1 Flash 当前官方 API 名称为 `deepseek-flash`（[模型说明](https://api-docs.deepseek.com/quick_start/pricing/)）；OpenCode 使用实际可用的 provider/model ID。能力、服务可用性和工具权限分别核验；普通代码实现或测试需已有相应写入／执行授权，本分工不扩大示例权限。
 
 只在选用时接入，不另建 Harness 或后台调度器。核验 `opencode run --help`、配置与服务当前提供的模型 ID，不把别名当固定版本。macOS 安装入口：
 

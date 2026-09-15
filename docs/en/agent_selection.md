@@ -13,7 +13,8 @@ This file defines delegation, isolation, and fallback. Review triggers live in [
 
 ## Delegation choices
 
-- Choose by whole-task size, risk, and independence. Prefer a matching Worker for a substantial package; Root decides and verifies evidence.
+- Choose by whole-task uncertainty, affected boundaries, cost of error, and independence, not file type.
+- Root handles tightly connected understanding, design, and core implementation continuously. Delegate substantial packages that can be accepted independently to matching Workers; Root verifies evidence.
 - Root may do simple low-risk work without an independence need. Cross-file reading does not require delegation.
 - Required independent review must be a separate assessment in a fresh context; Root self-review is not a substitute.
 - Do not fragment work or delegate ceremonially afterward. Default to one Worker. Parallelize only independent, useful work; serialize writes without reliable isolation.
@@ -45,12 +46,12 @@ Root checks critical paths and final diff; add checks when evidence or version c
 
 - Reviewer uses a fresh context with problem, contract, patch, acceptance, and evidence, without author reasoning/self-evaluation. A different model is not independence.
 - Select a Reviewer from the model table. Root verifies material findings and retains the final decision.
-- Default to initial and post-fix review. Continue fixes and explain extra rounds. An unrechecked final version cannot pass.
+- After initial review, re-review only for fixes, version changes, or evidence gaps. Continue fixes and explain extra rounds. An unrechecked final version cannot pass; do not mechanically repeat a passed review.
 - If independent review is unavailable, continue self-checks and state the limit. Record an exception when the user accepts residual risk.
 
 ## Failures and escalation
 
-Resolve tool, scope, context, and validation prerequisites first. Change model/reasoning only for concrete quality evidence; state reason and acceptance, and do not silently alter user settings. Allow at most two quality escalations per subtask, then Root reassesses. The two limits cannot bypass each other.
+High-risk or highly uncertain tasks may start at a higher effort within existing authorization, without first failing. After a failure, check tools, scope, context, and validation before escalating for a remaining, specific reasoning or quality bottleneck. State the reason and acceptance criteria; do not silently alter user settings. Do not require every effort level in sequence. Allow at most two quality escalations per subtask, then Root reassesses; the two limits cannot bypass each other.
 
 ## CLIs, permissions, and records
 
