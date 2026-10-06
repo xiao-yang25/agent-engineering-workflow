@@ -2,9 +2,14 @@
 
 **简体中文** · [English](en/global-AGENTS.md) · [文档首页](../README.zh-CN.md#指南导航)
 
-使用前将 `<WORKFLOW_REPO>` 替换为 clone 后仓库的绝对路径；这是人工替换标记，不是自动展开变量。将本文合并到 `~/.codex/AGENTS.md`，保留原有个人规则。
+使用前将下方复制正文中的 `<WORKFLOW_REPO>` 替换为 clone 后仓库的绝对路径；这是人工替换标记，不是自动展开变量。合并到 `~/.codex/AGENTS.md` 时保留原有个人规则。
 
 若自定义了 `CODEX_HOME`，合并到该目录下的 `AGENTS.md`。只在仓库外的副本填写本机信息，共享指南正文直接引用原仓库；无需复制或修改整套指南。
+
+仅将下方 Markdown 块合并到本机入口；上方导航留在仓库中。替换块内的 `<WORKFLOW_REPO>` 后，核对保留的绝对引用。
+
+```markdown
+# 本机 Agent 工程入口
 
 共享指南：`<WORKFLOW_REPO>`。
 
@@ -16,3 +21,4 @@
 - Skill 仅按用户显式请求启用，除非更高优先级指令要求。
 - 私有审视日志：由使用者选择仓库外位置；可从 `<WORKFLOW_REPO>/examples/workflow_evolution_log.md` 复制空白模板。未配置调度时不声称已启用。
 - 不在本文保存 API Key。入口不可达时报告具体缺口，继续不依赖该入口的工作。
+```

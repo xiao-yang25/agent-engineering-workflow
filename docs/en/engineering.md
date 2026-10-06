@@ -83,6 +83,13 @@ Classify findings as an authorized required outcome; a necessary supporting chan
 
 Private helpers, local algorithms, and internal organization may change while the contract remains unchanged. When a structural assumption fails, record the assumption and evidence, describe the smallest necessary boundary change and impact, evaluate alternatives with [design.md](design.md), resolve the required decision or authorization, and update the design record before implementation. Follow existing project patterns without evidence for departure; do not silently create a second ownership, error, or configuration mechanism.
 
+## Expression and delivery
+
+- Lead with the outcome; use clear, short sentences, active voice, and consistent terms. English may draw on ASD-STE100's writing principles. Chinese can borrow the clarity principles without mechanically applying an English word list. Do not claim that an ordinary rewrite complies with the standard.
+- Choose the simplest form sufficient for understanding: text for simple facts, tables for comparisons, diagrams for relationships and flows, and interactive HTML for parameter changes and exploration. Use video when animation materially helps explain a sequence. Forms may be combined; do not require escalation through every form or generate all of them. Tools and Skills remain subject to existing authorization.
+- Simplification must preserve facts, conditions, exceptions, numbers, boundaries, and uncertainty. Distinguish illustrations from measurements and sourced facts from assumptions; visual explanations follow the evidence requirements above.
+- Check the final presentation: diagram labels, relationships, directions, and rendering; key operations, state changes, and assumptions in interactive HTML; and consistency across video key frames, narration, and formulas. State gaps in checks that were not completed. A demonstration or visualization cannot replace validation of the actual system.
+
 ## Phase gates and handoffs
 
 Gates are readiness checks, not separate reports or approval rituals. Design hands off when behavior, constraints, boundaries, approach, validation, and blocking decisions are clear enough. Coding hands off after required behavior is implemented, affected checks cover the final version, and material limitations are recorded. Review states findings, coverage, evidence gaps, and outcome. Debugging either establishes a cause sufficiently for action or identifies a specific blocking prerequisite.

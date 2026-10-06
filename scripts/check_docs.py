@@ -303,13 +303,19 @@ def check_sensitive_text(path: Path, text: str) -> list[Issue]:
 
 def check_translations(documents: dict[Path, MarkdownDocument]) -> list[Issue]:
     """Check counterpart coverage and language switches, not translation quality."""
-    pairs = [(REPO_ROOT / "README.zh-CN.md", REPO_ROOT / "README.md"),
-             (REPO_ROOT / "AGENTS.md", REPO_ROOT / "docs/en/AGENTS.md")]
-    pairs.extend((path, path.parent / "en" / path.name)
-                 for path in sorted(documents)
-                 if path.parent in (REPO_ROOT / "docs", REPO_ROOT / "examples"))
+    pairs = {(REPO_ROOT / "README.zh-CN.md", REPO_ROOT / "README.md"),
+             (REPO_ROOT / "AGENTS.md", REPO_ROOT / "docs/en/AGENTS.md")}
+    for path in documents:
+        if path == REPO_ROOT / "docs/en/AGENTS.md":
+            continue  # The English entry is paired with the root AGENTS above.
+        relative_path = path.relative_to(REPO_ROOT)
+        if len(relative_path.parts) < 2 or relative_path.parts[0] not in ("docs", "examples"):
+            continue
+        folder = REPO_ROOT / relative_path.parts[0]
+        name = Path(*relative_path.parts[2:]) if relative_path.parts[1] == "en" else Path(*relative_path.parts[1:])
+        pairs.add((folder / name, folder / "en" / name))
     issues: list[Issue] = []
-    for chinese, english in pairs:
+    for chinese, english in sorted(pairs):
         for source, counterpart in ((chinese, english), (english, chinese)):
             document = documents.get(source)
             if document is None:

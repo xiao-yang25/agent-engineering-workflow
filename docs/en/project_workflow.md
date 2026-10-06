@@ -42,7 +42,7 @@ Do not prebuild a documentation tree, Skill collection, multi-Agent framework, o
 1. Confirm local gap-filling versus an authorized workflow overhaul; preserve user changes and team conventions.
 2. Locate rules, contracts, knowledge, and real paths; reuse existing owners.
 3. Check test entry points, dependencies, registration, and versioned results. Separate old failures, environment issues, unrun checks, and new defects.
-4. State what remains, what changes, where duplication returns, and key unknowns; proceed when existing authorization suffices.
+4. State what remains, what changes, where duplicate content is consolidated, and key unknowns; proceed when existing authorization suffices.
 5. Change incrementally and validate against project gates. Update affected documents and the same task record; leave out-of-scope governance as follow-up.
 
 Do not move directories, rewrite architecture, or copy shared guides to fit a template. Do not promote accidental behavior to contract or remove it before compatibility impact is understood. Off-repository documentation, deployment boundaries, and confidentiality rules remain active.

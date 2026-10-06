@@ -49,6 +49,16 @@ Use recurring-problem evidence for verifiable, reversible improvement.
 - Static checks do not prove efficiency improvement. Without task evidence, mark the change under observation and decide from later evidence.
 - Roll back only this mechanism's changes after confirming the file has not changed since. If it has, propose; do not overwrite.
 
+### Small regression set from real tasks
+
+Maintain reusable successful artifacts and methods in the original project or task. Cases here assess workflow changes; one success does not establish improvement, and project assets are not copied into the private index.
+
+- Select a few representative cases from the current task or logged evidence that remains authorized: the target historical failure and successful scenarios that must keep working. Cover the current change first; do not scan other tasks to fill a quota. Reuse the private log and original task records for the index; keep personal cases out of the public repository.
+- Link each case to original evidence and its version, and define inputs/prerequisites, expected outcomes, acceptance entry points, and applicability limits. Verify actual artifacts or final state; an Agent's completion claim alone is not a passing result.
+- Save a baseline before the change and compare the same cases under the same acceptance criteria afterward. Record guide/model/environment versions and differences that affect comparability. Adjust one main factor at a time where possible; do not attribute a result to one change when its effect cannot be isolated.
+- For key cases affected by randomness, set the repeat count in advance within existing authorization and budget, and record every attempt rather than selecting successes. Replay remains subject to host permissions and operation limits. If safe replay or comparable conditions are unavailable, state substitute evidence and gaps, and keep the change under observation.
+- Revise cases and criteria only for changed requirements, contracts, or new evidence; retain the reason and old-version reference. Do not remove failing cases or relax criteria to improve scores. Decide to keep, revise, or roll back from actual results; case count, static checks, or one success alone cannot prove overall improvement.
+
 ## 7. Log contents
 
 - Each item contains date, actual coverage, issue source, location and before/diff index, validation, and decision or next observation.

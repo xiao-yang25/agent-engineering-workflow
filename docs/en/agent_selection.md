@@ -38,7 +38,7 @@ Root checks critical paths and final diff; add checks when evidence or version c
 - Distinguish invisibility, missing entry point, authentication/quota, permission refusal, queueing, and slowness.
 - Replace only after the request ends or cancellation is confirmed. Timeout/silence does not prove termination. Retain and query its ID; do not duplicate work.
 - Allow at most two availability substitutions per subtask. Choose an authorized executor by role; do not poll fixed lists or repeat shared failures.
-- Do not retry after quota exhaustion. Do not claim Spark is unsupported without checking or probe DeepSeek without credentials.
+- Do not retry after quota exhaustion. Do not claim a model or entry point is unsupported without checking, and do not probe DeepSeek without credentials.
 - After substitutions, Root executes. If independent review is unavailable, retain the gap.
 - Fallback must not bypass permission, data disclosure, or budgets. Ask only for a missing required permission, decision, or capability.
 

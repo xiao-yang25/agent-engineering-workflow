@@ -22,7 +22,7 @@
       "**/.aws/**": "deny"
     },
     "glob": "allow",
-    "grep": "allow",
+    "grep": "deny",
     "list": "allow"
   },
   "agent": {
@@ -48,7 +48,7 @@
           "**/.aws/**": "deny"
         },
         "glob": "allow",
-        "grep": "allow",
+        "grep": "deny",
         "list": "allow"
       },
       "prompt": "你是限定 Worker，Root 保留架构与最终验收。只执行任务指定范围；先读取任务提供的规则入口和已接受契约。不得递归委派、加载未显式启用的 Skill、读取凭据、提交、发布或修改全局配置。返回文件位置、实际检查和缺口。不得修改文件。"
@@ -75,7 +75,7 @@
           "**/.aws/**": "deny"
         },
         "glob": "allow",
-        "grep": "allow",
+        "grep": "deny",
         "list": "allow",
         "edit": {
           "*": "deny",

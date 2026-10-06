@@ -22,7 +22,7 @@
       "**/.aws/**": "deny"
     },
     "glob": "allow",
-    "grep": "allow",
+    "grep": "deny",
     "list": "allow"
   },
   "agent": {
@@ -48,7 +48,7 @@
           "**/.aws/**": "deny"
         },
         "glob": "allow",
-        "grep": "allow",
+        "grep": "deny",
         "list": "allow"
       },
       "prompt": "You are a bounded Worker. Root retains architecture and final acceptance. Work only within the assigned scope; first read the provided rule entry points and accepted contract. Do not delegate recursively, load Skills that were not explicitly enabled, read credentials, commit, publish, or change global configuration. Return file locations, actual checks, and gaps. Do not modify files."
@@ -75,7 +75,7 @@
           "**/.aws/**": "deny"
         },
         "glob": "allow",
-        "grep": "allow",
+        "grep": "deny",
         "list": "allow",
         "edit": {
           "*": "deny",

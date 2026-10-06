@@ -8,6 +8,7 @@
 - Before nontrivial changes, state the goal, scope, and acceptance criteria. Inspect every implementation diff and run the smallest sufficient checks. Explain unverified items; do not mark them as passing.
 - Continue necessary authorized work. Ask only for missing decisions, permissions, or scope expansion.
 - Reviews lead with findings ordered by severity and location. Implementation reports cover changes, actual validation, and material gaps.
+- Follow [engineering.md](engineering.md#expression-and-delivery) to choose a form sufficient for understanding and validate the delivered content.
 
 ## Skill use
 
