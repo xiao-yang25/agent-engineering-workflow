@@ -52,6 +52,32 @@ For a new project, clarify goals/non-goals, hard constraints, key approaches and
 - **Delivery:** Inspect artifacts, key validation, and unverified items, and try the intended usage. The agent remains responsible for required validation; the user need not repeat every check.
 - **Continuity:** Retain important decisions, unfinished work, and evidence entry points. Handle recurring problems through the existing workflow improvement mechanism.
 
+## Questions and context
+
+A complete specification is not required upfront. The agent should locate existing material first, then help fill gaps affecting the next step under the [clarification principles](engineering.md#clarifying-the-task-with-the-user). These are optional prompts, not questions to answer on every task.
+
+| Aspect | Useful context or questions |
+| --- | --- |
+| Purpose and boundary | Who uses this and in what situation? What is the first outcome? What is explicitly outside this task? |
+| Constraints and tradeoffs | What must remain compatible? Which matters most: time, cost, or maintenance? Which choices should you recommend and explain? |
+| Material and examples | Which files are authoritative? Is there a preferred result, unacceptable counterexample, or existing failure? |
+| Acceptance and scope | How can I try or verify the result? What may you change and execute? Which decisions need me? |
+| Understanding and continuity | Which explanation form helps? What is assumed? Which decisions and evidence does the next phase need? |
+
+Example requests and corrections:
+
+- **Start:** “The first version is for my own use. Complete one usable scenario first. Read the existing material, identify decisions that are genuinely missing, and recommend options; handle other details autonomously within the permitted scope.”
+- **Tradeoffs:** “Compare two realistic approaches, recommend one, and explain its costs and what evidence would change your recommendation.”
+- **Understanding:** “I do not understand this retry mechanism. Start with a numerical example; if interaction would help, make an explanation with adjustable parameters.”
+- **Correction:** “The result omits the offline scenario, and the original goal still applies. Add boundary validation and explain which conclusions need to change.”
+
+## Discussing concrete results
+
+- For an unclear goal, start with a minimal sketch or usable sample and narrow the requirement through feedback. This does not automatically approve full implementation or publication.
+- Use positive examples and counterexamples to show quality differences, identifying whether they concern content, behavior, or presentation. Do not leave the agent to guess what “more professional” or “better looking” means.
+- Inspect a short tradeoff summary for important choices. If repeated corrections make no progress, ask the agent to compare competing hypotheses and propose the next discriminating experiment, reusing existing design and debugging methods.
+- At delivery, request a usable entry point, key validation, and limits. Select explanation artifacts under the [production guide](explanation_artifacts.md); they cannot replace product acceptance.
+
 ## Reusing successful examples
 
 Start with a verified artifact and retain the inputs, key decisions, corrections, acceptance evidence, versions, and applicability needed for reuse. Keep location indexes for the original process rather than copying whole conversations. Artifact acceptance does not establish an efficient collaboration method, and one success does not establish reliable gains. Maintain artifacts and methods in the original project or task. Register cases comparing workflow changes only in the existing private index under the [regression rules](workflow_evolution.md#small-regression-set-from-real-tasks); do not create a separate case library.

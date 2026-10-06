@@ -28,6 +28,7 @@
 | 主题 | 文档 |
 | --- | --- |
 | 使用者实践 | [使用 AI 工作的人](docs/user_practices.md) |
+| 解释与理解 | [文字、图解、交互与视频](docs/explanation_artifacts.md) |
 | 规则与验收 | [Agent 入口](AGENTS.md) · [工程原则](docs/engineering.md) |
 | 日常开发 | [设计](docs/design.md) · [编码](docs/coding.md) · [调试](docs/debugging.md) · [审查](docs/review.md) |
 | 项目与协作 | [项目接入](docs/project_workflow.md) · [Agent 协作](docs/agent_selection.md) |

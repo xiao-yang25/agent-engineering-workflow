@@ -83,12 +83,24 @@ Classify findings as an authorized required outcome; a necessary supporting chan
 
 Private helpers, local algorithms, and internal organization may change while the contract remains unchanged. When a structural assumption fails, record the assumption and evidence, describe the smallest necessary boundary change and impact, evaluate alternatives with [design.md](design.md), resolve the required decision or authorization, and update the design record before implementation. Follow existing project patterns without evidence for departure; do not silently create a second ownership, error, or configuration mechanism.
 
+## Clarifying the task with the user
+
+- Read existing material within the permitted scope first. Distinguish known facts, assumptions to validate, and decisions requiring the user; do not ask again for available answers.
+- Fill material gaps for the current phase: users and scenarios, goals/non-goals, hard constraints, available material, key tradeoffs, stage outcomes, acceptance, and permitted scope. Execute simple tasks directly; do not turn this list into a mandatory questionnaire.
+- Ask only questions that affect the next step and explain which decision the answer changes. Where comparison helps, offer a few options, a recommendation, and costs. For users unfamiliar with the technology, start from purpose and tradeoffs rather than asking them to design the system.
+- When the user cannot yet judge, provide concrete examples, sketches, usable samples, or bounded experiments to help establish criteria. An unanswered question is not approval. State assumptions and proceed with low-risk, reversible details within existing authorization; continue work independent of a missing decision.
+- Prioritize costly assumptions and choices that are difficult to reverse; implementation need not wait for every detail to be discussed. A tradeoff summary needs only the recommendation, reasons, costs, and evidence that would change the conclusion. Reuse existing task records for decisions and acceptance.
+
+See [user_practices.md](user_practices.md#questions-and-context) for user context and question examples. This section changes no authorization, architectural responsibility, or acceptance requirement.
+
 ## Expression and delivery
 
 - Lead with the outcome; use clear, short sentences, active voice, and consistent terms. English may draw on ASD-STE100's writing principles. Chinese can borrow the clarity principles without mechanically applying an English word list. Do not claim that an ordinary rewrite complies with the standard.
 - Choose the simplest form sufficient for understanding: text for simple facts, tables for comparisons, diagrams for relationships and flows, and interactive HTML for parameter changes and exploration. Use video when animation materially helps explain a sequence. Forms may be combined; do not require escalation through every form or generate all of them. Tools and Skills remain subject to existing authorization.
 - Simplification must preserve facts, conditions, exceptions, numbers, boundaries, and uncertainty. Distinguish illustrations from measurements and sourced facts from assumptions; visual explanations follow the evidence requirements above.
 - Check the final presentation: diagram labels, relationships, directions, and rendering; key operations, state changes, and assumptions in interactive HTML; and consistency across video key frames, narration, and formulas. State gaps in checks that were not completed. A demonstration or visualization cannot replace validation of the actual system.
+
+When producing an explanation artifact, load the [explanation artifact guide](explanation_artifacts.md) as needed for methods and acceptance examples covering text, diagrams/images, interactive HTML, and explanatory video.
 
 ## Phase gates and handoffs
 

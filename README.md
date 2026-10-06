@@ -28,6 +28,7 @@ See the [human practices guide](docs/en/user_practices.md) for research, ways to
 | Topic | Documents |
 | --- | --- |
 | Human practices | [Working with AI](docs/en/user_practices.md) |
+| Explanation and understanding | [Text, diagrams, interaction, and video](docs/en/explanation_artifacts.md) |
 | Rules and acceptance | [Agent entry](docs/en/AGENTS.md) · [Engineering principles](docs/en/engineering.md) |
 | Daily development | [Design](docs/en/design.md) · [Implementation](docs/en/coding.md) · [Debugging](docs/en/debugging.md) · [Review](docs/en/review.md) |
 | Projects and collaboration | [Project onboarding](docs/en/project_workflow.md) · [Agent collaboration](docs/en/agent_selection.md) |
